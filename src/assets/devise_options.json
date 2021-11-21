@@ -1,0 +1,6 @@
+{
+  "DIFFRACTION_GRATING_RANGE": {
+    "MIN": 5,
+    "MAX": 70
+  }
+}

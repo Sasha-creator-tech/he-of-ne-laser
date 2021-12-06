@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Screen/>
     <Device/>
+    <Screen/>
   </div>
 </template>
 

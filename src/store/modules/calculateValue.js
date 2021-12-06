@@ -1,7 +1,7 @@
 export default {
     state: {
-        diffractionStepValue: 15.5,
-        power: true,
+        diffractionStepValue: 17,
+        power: false,
         diffractionLineSpacingByMM: 100,
         injection: 3.7,
         distanceBetweenDots: null

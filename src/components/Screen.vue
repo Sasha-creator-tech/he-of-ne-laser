@@ -1,13 +1,20 @@
 <template>
   <div>
-    <h1>Screen</h1>
+    <h1>Екран</h1>
     <div>
-      <p v-if="dotPosition">Selected dot position: {{ Number(dotPosition.toFixed(2)) }} (cm)</p>
+      <div v-if="getPowerState">
+        <p>Для отримання відстані від центрального мінімума потрібно натиснути на нього починаючи з правої сторони відносно 0.</p>
+        <p>Мінімуми зліва - дзеркально симетричні правим та мають таку ж відстань</p>
+      </div>
+      <div v-else>
+        <p>Увімкніть пристрій для початку роботи</p>
+      </div>
+      <p v-if="dotPosition && getPowerState">Відстань вибраного мінімума: {{ Number(dotPosition.toFixed(2)) }} (см)| Номер мінімума: {{ selectedMin }}</p>
       <div class="ruler">
         <a v-for="space in rulerSpacing" v-bind:key="space">{{ space }}</a>
         <ul class="laser" v-if="getPowerState">
-          <li class="red-dot" v-for="(left, i) in minimumsPosLeft" v-bind:key="left" v-bind:style="{ transform: left.pos, opacity: left.opacity }" v-on:click="getDotPosition({dot: left, index: i})"></li>
-          <li class="red-dot" v-bind:style="{ transform: minZeroPos }"></li>
+          <li class="red-dot" v-for="left in minimumsPosLeft" v-bind:key="left" v-bind:style="{ transform: left.pos, opacity: left.opacity }"></li>
+          <li class="red-dot" v-bind:style="{ transform: minZeroPos }" v-on:click="dotPosition = 0.0000000001, selectedMin = 0"></li>
           <li class="red-dot" v-for="(right, i) in minimumsPosRight" v-bind:key="right" v-bind:style="{ transform: right.pos, opacity: right.opacity }" v-on:click="getDotPosition({dot: right, index: i})"></li>
         </ul>
       </div>
@@ -29,13 +36,15 @@ export default {
       minZeroPos: `translate3d(589px, -220px, 0px)`,
       minimumsPosRight: [],
       minimumsPosLeft: [],
-      dotPosition: null
+      dotPosition: null,
+      selectedMin: 0
     }
   },
   computed: mapGetters(["getPowerState", "getDistanceBetweenDots"]),
   methods: {
     getDotPosition(dot) {
       let finalDotPosition = dot.dot.distance;
+      this.selectedMin = dot.index + 1;
       for (let i = 0; i < dot.index; i++) {
         finalDotPosition += dot.dot.distance;
       }

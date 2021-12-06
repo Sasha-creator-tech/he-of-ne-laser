@@ -2,14 +2,14 @@
   <div>
     <hr style="width:100%;text-align:left;margin-left:0">
     <div v-if="getPowerState">
-      <h2>Distance from the diffraction grating to the screen: </h2>
+      <h2>Відстань дифракційної решітки від екрану: </h2>
       <h2>
-        {{ getDiffractionStepValue }} cm
+        {{ getDiffractionStepValue }} (см)
       </h2>
       <input type="range" v-bind:min="diffractionRange.MIN" v-bind:max="diffractionRange.MAX" step="0.5" v-model="diffractionStepValue">
       <input type="number" v-bind:min="diffractionRange.MIN" v-bind:max="diffractionRange.MAX" step="1" v-model="diffractionStepValue">
     </div>
-    <h1>Power</h1>
+    <h3 class="power">Живлення</h3>
     <label class="switch">
       <input type="checkbox" v-model="power">
       <span class="slider round"></span>
@@ -60,6 +60,7 @@ export default {
   display: inline-block;
   width: 60px;
   height: 34px;
+  margin-left: 1000px;
 }
 
 /* Hide default HTML checkbox */
@@ -115,5 +116,9 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+.power {
+  margin-left: 1000px;
+  position: relative;
 }
 </style>

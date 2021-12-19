@@ -9,6 +9,11 @@
       <input type="range" v-bind:min="diffractionRange.MIN" v-bind:max="diffractionRange.MAX" step="0.5" v-model="diffractionStepValue">
       <input type="number" v-bind:min="diffractionRange.MIN" v-bind:max="diffractionRange.MAX" step="1" v-model="diffractionStepValue">
     </div>
+    <div v-if="getPowerState">
+      {{ calculateGatePos(diffractionStepValue) }}
+      <img src="https://cloud-ex42.usaupload.com/cache/plugins/filepreviewer/322144/2493ebcb931a57499cce4df80b8bb1353486018e82eca1ac53b21586fb200640/1100x800_cropped.jpg" alt="">
+      <img class="screen-movement" v-bind:style="{ 'transform': calculateGatePos(diffractionStepValue) }" src="https://cloud-ex42.usaupload.com/cache/plugins/filepreviewer/322152/77c3b6f682d35550e86820d8ee601ceb225683dba4311ce4fa3cc081b1e24a49/1100x800_cropped.jpg" alt="">
+    </div>
     <h3 class="power">Живлення</h3>
     <label class="switch">
       <input type="checkbox" v-model="power">
@@ -26,12 +31,18 @@ export default {
     return {
       diffractionRange: deviseOptions.DIFFRACTION_GRATING_RANGE,
       diffractionStepValue: 25,
-      power: false
+      power: false,
+      gatePositionPx: -600,
+      gatePosition: "translate(-200px, -208px)"
     }
   },
   methods: {
     ...mapMutations(["updateDiffractionStepValue", "updatePower"]),
-    ...mapActions(["calculateRedDotsPosition"])
+    ...mapActions(["calculateRedDotsPosition"]),
+    calculateGatePos(position) {
+      const calculatePosition = 6 * -Math.abs(position) - 200;
+      return `translate(-${Math.abs(calculatePosition)}px, -208px)`;
+    }
   },
   watch: {
     diffractionStepValue(newVal) {
@@ -54,6 +65,9 @@ export default {
 </script>
 
 <style scoped>
+.screen-movement {
+  position: relative;
+}
 /* The switch - the box around the slider */
 .switch {
   position: relative;

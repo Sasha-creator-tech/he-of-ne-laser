@@ -1,12 +1,12 @@
 <template>
   <div class="screen">
-    <div v-if="getPowerState">
+    <div>
       <h1>Екран</h1>
-      <div>
+      <div style="transform: translateY(130px)">
         <p>Для отримання відстані від центрального мінімума потрібно натиснути на нього починаючи з правої сторони відносно 0.</p>
         <p>Мінімуми зліва - дзеркально симетричні правим та мають таку ж відстань</p>
       </div>
-      <p v-if="dotPosition && getPowerState">Відстань вибраного мінімума: {{ Number(dotPosition.toFixed(2)) }} (см)| Номер мінімума: {{ selectedMin }}</p>
+      <p v-bind:class="{ 'off-state': !(dotPosition && getPowerState) }">Відстань вибраного мінімума: {{ Number(dotPosition.toFixed(2)) }} (см)| Номер мінімума: {{ selectedMin }}</p>
       <div class="ruler">
         <a v-for="space in rulerSpacing" v-bind:key="space">{{ space }}</a>
         <ul class="laser" v-if="getPowerState">
@@ -33,7 +33,7 @@ export default {
       minZeroPos: `translate3d(589px, -220px, 0px)`,
       minimumsPosRight: [],
       minimumsPosLeft: [],
-      dotPosition: null,
+      dotPosition: 0,
       selectedMin: 0
     }
   },
@@ -96,6 +96,7 @@ export default {
   *display: inline;
 }
 .ruler {
+  transform: translateY(-100px);
   background: lightYellow;
   box-shadow: 0 -1px 1em hsl(60, 60%, 84%) inset;
   border-radius: 2px;
@@ -151,7 +152,11 @@ div {
   position: relative;
 }
 
+.off-state {
+  visibility: hidden;
+}
+
 .screen {
-  transform: translateY(-150px);
+  transform: translateY(-130px);
 }
 </style>

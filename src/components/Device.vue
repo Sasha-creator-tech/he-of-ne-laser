@@ -182,8 +182,8 @@ input[type="range"]::-webkit-slider-thumb
 /*  width: 1300px;*/
 /*}*/
 
-/*.device-header {*/
-/*  transform: translateY(200px);*/
-/*  z-index: 100;*/
-/*}*/
+.device-header {
+  transform: translateY(200px);
+  z-index: 100;
+}
 </style>

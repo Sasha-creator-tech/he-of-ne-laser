@@ -1,13 +1,10 @@
 <template>
-  <div>
-    <h1>Екран</h1>
-    <div>
-      <div v-if="getPowerState">
+  <div class="screen">
+    <div v-if="getPowerState">
+      <h1>Екран</h1>
+      <div>
         <p>Для отримання відстані від центрального мінімума потрібно натиснути на нього починаючи з правої сторони відносно 0.</p>
         <p>Мінімуми зліва - дзеркально симетричні правим та мають таку ж відстань</p>
-      </div>
-      <div v-else>
-        <p>Увімкніть пристрій для початку роботи</p>
       </div>
       <p v-if="dotPosition && getPowerState">Відстань вибраного мінімума: {{ Number(dotPosition.toFixed(2)) }} (см)| Номер мінімума: {{ selectedMin }}</p>
       <div class="ruler">
@@ -152,5 +149,9 @@ div {
 }
 .laser{
   position: relative;
+}
+
+.screen {
+  transform: translateY(-150px);
 }
 </style>

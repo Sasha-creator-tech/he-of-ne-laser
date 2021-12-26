@@ -6,8 +6,9 @@
         <img class="ray" v-bind:class="{ 'ray-mock': !getPowerState }" src="https://cloud-ex42.usaupload.com/cache/plugins/filepreviewer/325472/8218df8fc5f4ef15b88a17aceb618b4143267f31bba107d29a8db6f53d1b318d/1100x800_cropped.jpg">
         <input type="range" class="range" v-bind:min="diffractionRange.MIN" v-bind:max="diffractionRange.MAX" step="0.5" v-model="diffractionStepValue">
         <input type="number" class="input-range" v-bind:min="diffractionRange.MIN" v-bind:max="diffractionRange.MAX" step="1" v-model="diffractionStepValue">
-        <div style="transform: translateY(300px) translateX(-100px)" type="checkbox">
-          <h3 class="power">Живлення</h3>
+        <div style="transform: translateY(200px) translateX(-1000px)" type="checkbox">
+          <h3 class="power" v-if="langGetter">Живлення</h3>
+          <h3 class="power" v-else>Power</h3>
           <label class="switch">
             <input type="checkbox" v-model="power">
             <span class="slider round"></span>
@@ -15,9 +16,13 @@
         </div>
         <img src="https://cloud-ex42.usaupload.com/cache/plugins/filepreviewer/327040/3a878d5c784eef5a8aea6dc8f25643c0780b317c4cc75841b68b6ee47adbadf5/1100x800_cropped.jpg">
         <div>
-          <h2>Відстань дифракційної решітки від екрану: </h2>
-          <h2>
+          <h2 v-if="langGetter">Відстань дифракційної решітки від екрану: </h2>
+          <h2 v-else>Distance of the diffraction grating from the screen: </h2>
+          <h2 v-if="langGetter">
             {{ getDiffractionStepValue }} (см)
+          </h2>
+          <h2 v-else>
+            {{ getDiffractionStepValue }} (cm)
           </h2>
         </div>
       </div>
@@ -57,7 +62,7 @@ export default {
       this.updatePower(newVal);
     }
   },
-  computed: mapGetters(["getDiffractionStepValue", "getPowerState"]),
+  computed: mapGetters(["getDiffractionStepValue", "getPowerState", "langGetter"]),
   mounted() {
     this.diffractionStepValue = this.getDiffractionStepValue;
     this.power = this.getPowerState;

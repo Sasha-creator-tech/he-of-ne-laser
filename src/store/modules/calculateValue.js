@@ -4,7 +4,8 @@ export default {
         power: false,
         diffractionLineSpacingByMM: 100,
         injection: 3.7,
-        distanceBetweenDots: null
+        distanceBetweenDots: null,
+        lang: true
     },
     mutations: {
         updateDiffractionStepValue(state, data) {
@@ -18,6 +19,9 @@ export default {
         },
         updateDistanceBetweenDots(state, data) {
             state.distanceBetweenDots = data;
+        },
+        updateLang(state, data) {
+            state.lang = data;
         }
     },
     actions: {
@@ -41,6 +45,9 @@ export default {
         },
         getDistanceBetweenDots(state) {
             return state.distanceBetweenDots;
+        },
+        langGetter(state) {
+            return state.lang;
         }
     }
 }

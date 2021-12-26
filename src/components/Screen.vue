@@ -1,12 +1,18 @@
 <template>
   <div class="screen">
     <div>
-      <h1>Екран</h1>
+      <button class="button button1" v-bind:class="{ 'active': selectedLang }" v-on:click="changeLang(true)">Українська</button><br>
+      <button class="button button1" v-bind:class="{ 'active': !selectedLang }" v-on:click="changeLang(false)">English</button>
+      <h1 v-if="langGetter">Екран</h1>
+      <h1 v-else>Screen</h1>
       <div style="transform: translateY(130px)">
-        <p>Для отримання відстані від центрального мінімума потрібно натиснути на нього починаючи з правої сторони відносно 0.</p>
-        <p>Мінімуми зліва - дзеркально симетричні правим та мають таку ж відстань</p>
+        <p v-if="langGetter">Для отримання відстані від центрального мінімума потрібно натиснути на нього починаючи з правої сторони відносно 0.</p>
+        <p v-else>To get the distance from the center minimum you need to tap on it starting from the right side towards 0.</p>
+        <p v-if="langGetter">Мінімуми зліва - дзеркально симетричні правим та мають таку ж відстань</p>
+        <p v-else>The minima on the left are mirror-symmetric rules with the same distance</p>
       </div>
-      <p v-bind:class="{ 'off-state': !(dotPosition && getPowerState) }">Відстань вибраного мінімума: {{ Number(dotPosition.toFixed(2)) }} (см)| Номер мінімума: {{ selectedMin }}</p>
+      <p v-if="langGetter" v-bind:class="{ 'off-state': !(dotPosition && getPowerState) }">Відстань вибраного мінімума: {{ Number(dotPosition.toFixed(2)) }} (см)| Номер мінімума: {{ selectedMin }}</p>
+      <p v-else v-bind:class="{ 'off-state': !(dotPosition && getPowerState) }">Distance of the chosen minimum: {{ Number(dotPosition.toFixed(2)) }} (cm)| Number of the minimum: {{ selectedMin }}</p>
       <div class="ruler">
         <a v-for="space in rulerSpacing" v-bind:key="space">{{ space }}</a>
         <ul class="laser" v-if="getPowerState">
@@ -20,7 +26,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   data() {
@@ -34,11 +40,17 @@ export default {
       minimumsPosRight: [],
       minimumsPosLeft: [],
       dotPosition: 0,
-      selectedMin: 0
+      selectedMin: 0,
+      selectedLang: true
     }
   },
-  computed: mapGetters(["getPowerState", "getDistanceBetweenDots"]),
+  computed: mapGetters(["getPowerState", "getDistanceBetweenDots", "langGetter"]),
   methods: {
+    ...mapMutations(["updateLang"]),
+    changeLang(lang) {
+      this.selectedLang = lang;
+      this.updateLang(lang);
+    },
     getDotPosition(dot) {
       let finalDotPosition = dot.dot.distance;
       this.selectedMin = dot.index + 1;
@@ -157,6 +169,37 @@ div {
 }
 
 .screen {
-  transform: translateY(-130px);
+  transform: translateY(-220px);
+}
+
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  transform: translateY(-220px) translateX(-500px);
+  position: relative;
+}
+
+.button1 {
+  background-color: white;
+  color: black;
+  border: 2px solid #4CAF50;
+}
+
+.button1:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+.active {
+  background-color: #4CAF50;
+  color: white;
 }
 </style>

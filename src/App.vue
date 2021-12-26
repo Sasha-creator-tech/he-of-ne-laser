@@ -1,7 +1,8 @@
 <template>
   <div>
 <!--    <h3>Лабораторна робота № 26</h3>-->
-    <h2>ВИВЧЕННЯ ГЕЛІЙ-НЕОНОВОГО (Не - Nе) ЛАЗЕРА</h2>
+    <h2 v-if="langGetter">ВИВЧЕННЯ ГЕЛІЙ-НЕОНОВОГО (Не - Nе) ЛАЗЕРА</h2>
+    <h2 v-else>STUDY OF THE HE-OF NE LASER</h2>
 <!--    <div style="font-size: 20px">-->
 <!--      <div style="text-align: left"><div class="header-idea">Мета роботи:</div><br>-->
 <!--        <div class="content-idea">&emsp;1. Вивчити будову і принцип дії оптичного квантового генератора - газового лазера.</div><br>-->
@@ -335,9 +336,11 @@
 
 <script>
 import Main from "@/Views/Main";
+import { mapGetters } from "vuex";
 
 export default {
   name: 'App',
+  computed: mapGetters(["langGetter"]),
   data() {
     return {
       field_1_row_1: localStorage.getItem("field_1_row_1"),
